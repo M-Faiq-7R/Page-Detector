@@ -19,13 +19,14 @@ while True:
         break
     else:
         frame = cv2.resize(frame, (250,300))
+        cframe = frame.copy()
         cv2.imshow("Image" , frame)
         frame = i.Blur(frame , 9)
         gframe = cv2.cvtColor(frame , cv2.COLOR_BGR2GRAY)
         _ , thresh = cv2.threshold(gframe, 125 , 255, cv2.THRESH_BINARY)
         iframe = i.perspective(frame)
         x, y, w, h = i.findBorders(iframe)
-        roi = i.perspective(iframe , x , y, w ,h)
+        roi = i.perspective(cframe , x , y, w ,h)
         i.savepic(roi , passes)
         passes += 1
         cv2.rectangle(iframe , (x,y), (x+w , y+h) , (0,255,0) , 3)
@@ -39,4 +40,5 @@ while True:
 
 
 cv2.waitKey(0)
+
 cv2.destroyAllWindows()
